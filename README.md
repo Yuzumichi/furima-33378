@@ -63,7 +63,7 @@
 | post_code     | string     | null: false                    |
 | area_city     | string     | null: false                    |
 | area_address  | string     | null: false                    |
-| area_building | string     | null: true                     |
+| area_building | string     |                                |
 | phone_number  | string     | null: false                    |
 | buyer         | references | null: false, foreign_key: true |
 
