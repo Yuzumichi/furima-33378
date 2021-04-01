@@ -24,6 +24,13 @@ RSpec.describe User, type: :model do
       expect(@user.errors.full_messages).to include("Email is invalid")
     end
 
+    it "同じemailでは登録できない" do
+      @user.save
+      another_user = FactoryBot.build(:user, email:@user.email)
+      another_user.valid?
+      expect(another_user.errors.full_messages).to include("Email has already been taken")
+    end
+
     it "passwordが空では登録できない" do
       @user.password = ""
       @user.valid?
@@ -55,10 +62,22 @@ RSpec.describe User, type: :model do
       expect(@user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
     end
 
+    it "first_name_が半角では登録できない" do
+      @user.first_name = "eee"
+      @user.valid?
+      expect(@user.errors.full_messages).to include("First name Full-width characters")
+    end
+
     it "first_name_kanaがひらがなでは登録できない" do
       @user.first_name_kana = "あああ"
       @user.valid?
       expect(@user.errors.full_messages).to include("First name kana Full-width katakana characters")
+    end
+
+    it "last_name_が半角では登録できない" do
+      @user.last_name = "eee"
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Last name Full-width characters")
     end
 
     it "last_name_kanaがひらがなでは登録できない" do
