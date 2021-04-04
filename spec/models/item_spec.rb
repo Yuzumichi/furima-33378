@@ -19,6 +19,12 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Name can't be blank")
       end
 
+      it "商品画像が空欄だと出品できない" do
+        @item.image = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Image can't be blank")
+      end
+
       it "商品説明が空欄だと出品できない" do
         @item.explanation = ""
         @item.valid?
@@ -31,8 +37,20 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Category Select")
       end
 
+      it "商品カテゴリーが1では出品できない" do
+        @item.category_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category Select")
+      end
+
       it "商品状態が空欄だと出品できない" do
         @item.status_id = ""
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Status Select")
+      end
+
+      it "商品状態が1だと出品できない" do
+        @item.status_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Status Select")
       end
@@ -43,14 +61,32 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Delivery charge Select")
       end
 
+      it "配送料の負担が空欄だと出品できない" do
+        @item.delivery_charge_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Delivery charge Select")
+      end
+
       it "配送元の地域が空欄だと出品できない" do
         @item.delivery_area_id = ""
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery area Select")
       end
 
+      it "配送元の地域が1だと出品できない" do
+        @item.delivery_area_id = 1
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Delivery area Select")
+      end
+
       it "配送までの日数が空欄だと出品できない" do
         @item.delivery_day_id = ""
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Delivery day Select")
+      end
+      
+      it "配送までの日数が1だと出品できない" do
+        @item.delivery_day_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Delivery day Select")
       end
@@ -61,21 +97,35 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Price can't be blank")
       end
 
+      it "商品価格が全角文字だと出品できない" do
+        @item.price = "ああああああ"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price Half-width number")
+      end
+
+      it "商品価格が半角英数混合だと出品できない" do
+        @item.price = "aaa11111"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price Half-width number")
+      end
+
+      it "商品価格が半角英語だけだと出品できない" do
+        @item.price = "aaaaaaaa"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price Half-width number")
+      end
+
       it "商品価格が300円以上でなければ出品できない" do
-        @item.price = "200"
+        @item.price = 200
         @item.valid?
         expect(@item.errors.full_messages).to include("Price Out of setting range")
       end
 
       it "商品価格が9,999,999円以下でなければ出品できない" do
-        @item.price = "10000000"
+        @item.price = 10000000
         @item.valid?
         expect(@item.errors.full_messages).to include("Price Out of setting range")
       end
-
-
-
-
     end
   end
 end
