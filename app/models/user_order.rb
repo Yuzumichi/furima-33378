@@ -4,11 +4,12 @@ class UserOrder
 
   with_options presence: true do
     validates :prefecture_id, numericality: { other_than: 0, message: "select" }
-    validates :post_code, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: "Include hyphen(-)" }
-    validates :area_city, format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "Input full-width characters."}
+    validates :post_code, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: "Input half-width number and Include hyphen(-)" }
+    validates :area_city, format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "Input full-width characters"}
     validates :area2_address
-    validates :phone_number, numericality: { only_integer: true, message: "Input only number." }
+    validates :phone_number, numericality: { only_integer: true, message: "Input only number" }
   end
+  validates :phone_number, format: { with:/\A\d{11}\z/, message: "Input only 11 digits" }
 
 
   def save
