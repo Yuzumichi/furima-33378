@@ -9,8 +9,10 @@ class UserOrder
     validates :area2_address
     validates :phone_number, numericality: { only_integer: true, message: "Input only number" }
     validates :token
+    validates :user_id
+    validates :item_id
   end
-  validates :phone_number, format: { with:/\A\d{11}\z/, message: "Input only 11 digits" }
+  validates :phone_number, format: { with:/\A\d{10,11}\z/, message: "Input only 10 or 11 digits" }
 
 
   def save
