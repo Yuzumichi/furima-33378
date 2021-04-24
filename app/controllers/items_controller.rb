@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
 
   before_action :authenticate_user!, only: [:new, :create, :edit, :update]
-  before_action :item_find, only:[:show, :edit, :update]
+  before_action :item_find, only:[:show, :edit, :update, :destroy]
   before_action :move_to_root, only: [:edit, :update]
 
   def index
@@ -35,6 +35,10 @@ class ItemsController < ApplicationController
     end
   end
 
+  def destroy
+    @item.destroy
+  end
+
   
   private
   def item_params
@@ -46,7 +50,7 @@ class ItemsController < ApplicationController
   end
 
   def move_to_root
-    unless @item.user_id == current_user.id
+    unless @item.user_id == current_user.id || @item.buyer.nil?
       redirect_to root_path
     end
   end
