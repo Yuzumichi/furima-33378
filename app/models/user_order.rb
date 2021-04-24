@@ -1,6 +1,6 @@
 class UserOrder
   include ActiveModel::Model
-  attr_accessor :user_id, :item_id, :prefecture_id, :post_code, :area_city, :area2_address, :area3_building, :phone_number
+  attr_accessor :user_id, :item_id, :prefecture_id, :post_code, :area_city, :area2_address, :area3_building, :phone_number, :token
 
   with_options presence: true do
     validates :prefecture_id, numericality: { other_than: 0, message: "select" }
@@ -8,6 +8,7 @@ class UserOrder
     validates :area_city, format: { with: /\A[ぁ-んァ-ン一-龥]/, message: "Input full-width characters"}
     validates :area2_address
     validates :phone_number, numericality: { only_integer: true, message: "Input only number" }
+    validates :token
   end
   validates :phone_number, format: { with:/\A\d{11}\z/, message: "Input only 11 digits" }
 

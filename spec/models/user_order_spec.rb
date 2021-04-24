@@ -13,7 +13,10 @@ RSpec.describe UserOrder, type: :model do
     end
 
     context '商品購入できないとき' do
-      it '正しいクレジットカードの情報で無いときは決済できないこと' do
+      it '正しいクレジットカードが空では決済できないこと' do
+        @user_order.token = ""
+        @user_order.valid?
+        expect(@user_order.errors.full_messages).to include("Token can't be blank")
       end
       it '郵便番号が空だと購入できないこと' do
         @user_order.post_code = ""

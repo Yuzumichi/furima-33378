@@ -5,5 +5,6 @@ FactoryBot.define do
     area_city     {'あああああ'}
     area2_address {22222}
     phone_number  {'08012345678'}
+    token {"tok_abcdefghijk00000000000000000"}
   end
 end
